@@ -1,4 +1,4 @@
-# CS50 Final Project - BabyLove
+# BabyLove
 
 #### Video Demo:  https://youtu.be/gauUkjV65qE
 
