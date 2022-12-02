@@ -6,7 +6,6 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from tempfile import mkdtemp
-from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
@@ -37,7 +36,6 @@ def index():
         return render_template("index.html")
     else:
         return redirect("/home")
-        
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -227,11 +225,14 @@ def activity():
 @login_required
 def home():
     if request.method == "GET":
+        # Finds babies registered to the current user
         babies = db.execute("SELECT * FROM babies WHERE id IN(SELECT baby_id FROM families WHERE parent_id=?)", session["user_id"])
+        # If the user hasn't registered a baby yet prompts them to add one
         if babies == []:
             flash("Please add a baby to get started")
             return redirect("/add")
         else:
+            # Breaks down baby information for the flask template
             dates = db.execute("SELECT DISTINCT date FROM activities WHERE baby_id IN(SELECT baby_id FROM families WHERE parent_id=?)", session["user_id"])
             name = babies[0]["babyname"]
             photo = babies[0]["photo"]
@@ -240,6 +241,7 @@ def home():
             activities = db.execute("SELECT * FROM activities WHERE baby_id=? and date=? ORDER BY time DESC", babyid, date)
             return render_template("home.html", photo=photo, activities=activities, name=name, babies=babies, dates=dates, date=date)
     else:
+        # gets data from user
         name = request.form.get("baby")
         date = request.form.get("date")
         if not name:
@@ -248,13 +250,14 @@ def home():
         if not date:
             flash("No date given")
             return redirect("/home")
+        # uses user data to retrieve the baby requested
         babies = db.execute("SELECT * FROM babies WHERE id IN(SELECT baby_id FROM families WHERE parent_id=?)", session["user_id"])
         baby = db.execute("SELECT * FROM babies WHERE babyname=? AND id IN(SELECT baby_id FROM families WHERE parent_id=?)", name, session["user_id"])
         babyid = baby[0]["id"]
-        dates = db.execute("SELECT DISTINCT date FROM activities WHERE baby_id IN(SELECT baby_id FROM families WHERE parent_id=?)", session["user_id"])    
+        dates = db.execute("SELECT DISTINCT date FROM activities WHERE baby_id IN(SELECT baby_id FROM families WHERE parent_id=?)", session["user_id"])
         photo = baby[0]["photo"]
+        # returns a default photo if the user did not upload one
         if not photo:
             photo = "default.jfif"
         activities = db.execute("SELECT * FROM activities WHERE baby_id=? and date=? ORDER BY time DESC", babyid, date)
         return render_template("home.html", photo=photo, activities=activities, name=name, babies=babies, dates=dates, date=date)
-
