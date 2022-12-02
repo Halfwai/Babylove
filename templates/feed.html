@@ -1,0 +1,220 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Feed
+{% endblock %}
+
+{% block main %}
+
+<body>
+    <section class="page-section background">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="section-heading text-uppercase heading">{{ baby }}'s hungry!</h1>
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div class="fa-stack fa-6x circle">
+                                <span class="circletext">Left</span>
+                            </div>                                            
+                            <div class="form-control form-control-lg" id="leftstopwatch">
+                                00:00:00
+                            </div>
+                            <ul id="buttons">
+                                <button class="btn btn-primary btn-lg" onclick="leftstartTimer()">Start</button>
+                                <button class="btn btn-primary btn-lg" onclick="leftstopTimer()">Stop</button>
+                                <button class="btn btn-primary btn-lg" onclick="leftresetTimer()">Reset</button>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fa-stack fa-6x circle">
+                                <span class="circletext">Right</span>
+                            </div>                                            
+                            <div class="form-control form-control-lg" id="rightstopwatch">
+                                00:00:00
+                            </div>
+                            <ul id="buttons">
+                                <button class="btn btn-primary btn-lg" onclick="rightstartTimer()">Start</button>
+                                <button class="btn btn-primary btn-lg" onclick="rightstopTimer()">Stop</button>
+                                <button class="btn btn-primary btn-lg" onclick="rightresetTimer()">Reset</button>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <form action="/activity" method="post">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6" id="registerbox">
+                    <div class="form-group">
+                        <!-- Name input-->
+                        <div class="text-center">
+                            <h3 class="heading">Bottle Feed</h3>
+                            <input  class="form-control" id="bottle" type="number" placeholder="Ml" name ="bottle"/>
+                            <input type="hidden" name="left" id="left"/>
+                            <input type="hidden" name="right" id="right"/>
+                            <input type="hidden" name="name" value="{{ baby }}"/>
+                            <input type="hidden" name="date" id="date" value="{{ date }}"/>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="heading">Start Time</h3>
+                        <input class="form-control" type="time" name="time" id="date" value="{{ time }}"/>
+                    </div>
+                    <div class="text-center"><button name="Submit" onclick="stopclock()" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Add Feed</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        const lefttimer = document.getElementById('leftstopwatch');
+        var lefthr = 0;
+        var leftmin = 0;
+        var leftsec = 0;
+        var leftstoptime = true;
+
+        function leftstartTimer() {
+        if (leftstoptime == true) {
+                leftstoptime = false;
+                lefttimerCycle();
+                rightstoptime = true;
+                var rightoutputValue=document.getElementById("rightstopwatch").innerHTML;
+                document.getElementById("right").value=rightoutputValue;
+            }
+        }
+        function leftstopTimer() {
+        if (leftstoptime == false) {
+            leftstoptime = true;
+            var leftoutputValue=document.getElementById("leftstopwatch").innerHTML;
+            document.getElementById("left").value=leftoutputValue;
+            }
+        }
+
+        function lefttimerCycle() {
+            if (leftstoptime == false) {
+            leftsec = parseInt(leftsec);
+            leftmin = parseInt(leftmin);
+            lefthr = parseInt(lefthr);
+
+            leftsec = leftsec + 1;
+
+            if (leftsec == 60) {
+            leftmin = leftmin + 1;
+            leftsec = 0;
+            }
+            if (leftmin == 60) {
+            lefthr = lefthr + 1;
+            leftmin = 0;
+            leftsec = 0;
+            }
+
+            if (leftsec < 10 || leftsec == 0) {
+            leftsec = '0' + leftsec;
+            }
+            if (leftmin < 10 || leftmin == 0) {
+            leftmin = '0' + leftmin;
+            }
+            if (lefthr < 10 || lefthr == 0) {
+            lefthr = '0' + lefthr;
+            }
+
+            lefttimer.innerHTML = lefthr + ':' + leftmin + ':' + leftsec;
+
+            setTimeout("lefttimerCycle()", 1000);
+        }
+        }
+
+        function leftresetTimer() {
+            lefttimer.innerHTML = '00:00:00';
+            lefthr = 0;
+            leftmin = 0;
+            leftsec = 0;
+            var leftoutputValue=document.getElementById("leftstopwatch").innerHTML;
+            document.getElementById("left").value=leftoutputValue;
+        }
+
+
+        const righttimer = document.getElementById('rightstopwatch');
+        var righthr = 0;
+        var rightmin = 0;
+        var rightsec = 0;
+        var rightstoptime = true;
+
+        function rightstartTimer() {
+        if (rightstoptime == true) {
+                rightstoptime = false;
+                righttimerCycle();
+                leftstoptime = true;
+                var leftoutputValue=document.getElementById("leftstopwatch").innerHTML;
+                document.getElementById("left").value=leftoutputValue;
+            }
+        }
+        function rightstopTimer() {
+        if (rightstoptime == false) {
+            rightstoptime = true;
+            var rightoutputValue=document.getElementById("rightstopwatch").innerHTML;
+            document.getElementById("right").value=rightoutputValue;
+            }
+        }
+
+        function righttimerCycle() {
+            if (rightstoptime == false) {
+            rightsec = parseInt(rightsec);
+            rightmin = parseInt(rightmin);
+            righthr = parseInt(righthr);
+
+            rightsec = rightsec + 1;
+
+            if (rightsec == 60) {
+            rightmin = rightmin + 1;
+            rightsec = 0;
+            }
+            if (rightmin == 60) {
+            righthr = righthr + 1;
+            rightmin = 0;
+            rightsec = 0;
+            }
+
+            if (rightsec < 10 || rightsec == 0) {
+            rightsec = '0' + rightsec;
+            }
+            if (rightmin < 10 || rightmin == 0) {
+            rightmin = '0' + rightmin;
+            }
+            if (righthr < 10 || righthr == 0) {
+            righthr = '0' + righthr;
+            }
+
+            righttimer.innerHTML = righthr + ':' + rightmin + ':' + rightsec;
+
+            setTimeout("righttimerCycle()", 1000);
+        }
+        }
+
+        function rightresetTimer() {
+            righttimer.innerHTML = '00:00:00';
+            righthr = 0;
+            rightmin = 0;
+            rightsec = 0;
+            var rightoutputValue=document.getElementById("rightstopwatch").innerHTML;
+            document.getElementById("right").value=rightoutputValue;
+        }
+
+        function stopclock() {
+            var rightoutputValue=document.getElementById("rightstopwatch").innerHTML;
+            document.getElementById("right").value=rightoutputValue;
+            var leftoutputValue=document.getElementById("leftstopwatch").innerHTML;
+            document.getElementById("left").value=leftoutputValue;
+        }
+
+
+
+
+    </script>
+
+    </section>
+
+</body>
+
+
+{% endblock %}

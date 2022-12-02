@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+        <!-- Masthead-->
+        <header class="masthead" id="top">
+            <div class="container">
+                <div class="masthead-subheading">Welcome To BabyLove</div>
+                <div class="masthead-heading text-uppercase">Baby Data Tracking Within Your Browser</div>
+                <a class="btn btn-primary btn-xl text-uppercase" href="#information">Tell Me More</a>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section" id="information">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">What Is Baby Tracking?</h2>
+                    <h3 class="section-subheading text-muted">And What Is It All About?</h3>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-solid fa-bed fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Sleep</h4>
+                        <p class="text-muted">Monitor how much sleep your baby is getting?</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="far fa-laugh-beam fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Eat</h4>
+                        <p class="text-muted">How much is your baby feeding? Both breast feeding and formula feeding supported</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-baby fa-stack-1x fa-inverse"></i> <i class="fa-solid "></i>
+                        </span>
+                        <h4 class="my-3">Nappy Changing</h4>
+                        <p class="text-muted">When do you change your baby's nappy?</p>
+                    </div>
+                    <a class="btn btn-primary btn-xl text-uppercase" href="#services">Register</a>
+                </div>
+            </div>
+        </section>
+        <!-- Contact-->
+        <section class="page-section" id="contact">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Contact Us</h2>
+                    <h3 class="section-subheading text-muted">Any questions or comments? Feel free to get in touch here!</h3>
+                </div>
+                <form action="//submit.form" id="ContactUs100" method="post" id="contactForm" onsubmit="return ValidateForm(this);">
+                    <script type="text/javascript">
+                    function ValidateForm(frm) {
+                    if (frm.Name.value == "") { alert('Name is required.'); frm.Name.focus(); return false; }
+                    if (frm.FromEmailAddress.value == "") { alert('Email address is required.'); frm.FromEmailAddress.focus(); return false; }
+                    if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.FromEmailAddress.focus(); return false; }
+                    if (frm.Comments.value == "") { alert('Please enter comments or questions.'); frm.Comments.focus(); return false; }
+                    return true; }
+                    </script>
+                    <div class="row align-items-stretch mb-5">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input  class="form-control" id="name" type="text" placeholder="Your Name *" data-sb-validations="required" name ="Name"/>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <div class="form-group mb-md-0">
+                                <!-- Phone number input-->
+                                    <input name="PhoneNumber" class="form-control" id="phone" type="tel" placeholder="Your Phone *" data-sb-validations="required" />
+                                    <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- Email address input-->
+                                    <input name="FromEmailAddress" class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
+                                    <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                    <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-textarea mb-md-0">
+                                        <!-- Message input-->
+                                    <textarea name="Comments" class="form-control" id="message" placeholder="Your Message *" data-sb-validations="required"></textarea>
+                                    <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                                </div>
+                            </div>
+                            <p id="required">*required</p>
+                            <div style="float:right"><a href="https://www.100forms.com" id="lnk100" title="form to email">form to email</a></div>
+                            <!-- <input name="skip_Submit" type="submit" value="Submit" /> -->
+                            <div class="text-center"><button name="Submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Send Message</button></div>
+                            <script src="https://www.100forms.com/js/FORMKEY:E5FHXS4SYU5T/SEND:my@email.com" type="text/javascript"></script>
+                            </div>
+                    </form>
+
+                
+
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Footer-->
+{% endblock %}

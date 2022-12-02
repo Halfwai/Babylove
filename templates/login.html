@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="section-heading text-uppercase">Login</h1>
+            <h3 class="section-subheading text-muted">Please Enter Your Username And Password</h3>
+        </div>
+        <form action="/login" method="post">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6" id="registerbox">
+                    <div class="form-group">
+                        <!-- Name input-->
+                        <input  class="form-control" id="name" type="text" placeholder="Username" data-sb-validations="required" name ="username" autocomplete="off" autofocus/>
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <!-- Password input-->
+                        <input name="password" class="form-control" type="password" placeholder="Password" data-sb-validations="required"/>
+                    </div>
+                    <div class="text-center"><button name="Submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Login</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </section>
+
+{% endblock %}

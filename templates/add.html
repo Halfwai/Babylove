@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<section class="page-section background">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="section-heading text-uppercase heading">Add Child</h1>
+            <h3 class="section-subheading text-muted">Please enter your child details below</h3>
+        </div>
+        <form action="/add" method="post" enctype=multipart/form-data>
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6" id="registerbox">
+                    <div class="form-group">
+                        <!-- Name input-->
+                        <input  class="form-control" id="name" type="text" placeholder="Baby name" autocomplete="off" autofocus="" data-sb-validations="required" name ="name"/>
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <!-- DOB input-->
+                        <input name="birthday" class="form-control" type="date" placeholder="Date of Birth" data-sb-validations="required"/>
+                    </div>
+                    <div class="form-group">
+                        <!-- Sex input-->
+                        <b class="radiohead">Sex:</b>
+                        
+                        <input name="sex" type="radio" value="boy" class="form-check-input radio"><span class="radiohead">Boy</span>
+                        <input name="sex" type="radio" value="girl" class="form-check-input radio"><span class="radiohead">Girl</span>
+                        
+                        
+                    </div>
+                    <div class="form-group">
+                        <h3 class="heading">Baby Photo:</h3>
+                        <input name="file" class="form-control" type="file" placeholder="Upload Photo" data-sb-validations="required"/>
+                    </div>
+                    
+                    <div class="text-center"><button name="Submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Add Child</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </section>
+
+{% endblock %}

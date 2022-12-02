@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Nappy
+{% endblock %}
+
+{% block main %}
+
+<body>
+    <section class="page-section background">
+        <div class="container">
+            <form action="/activity" method="post">
+            <div class="text-center">
+                <h1 class="section-heading text-uppercase heading">{{ baby }} needs a change</h1>
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div class="fa-stack fa-6x circle">
+                                <span class="circletext">Pee</span>
+                            </div>                                            
+                            <ul id="buttons">
+                                <input name="pee" type="radio" value="Small" class="form-check-input radio"><span class="radiohead">Small</span>
+                                <input name="pee" type="radio" value="Medium" class="form-check-input radio"><span class="radiohead">Medium</span>
+                                <input name="pee" type="radio" value="Large" class="form-check-input radio"><span class="radiohead">Large</span>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fa-stack fa-6x circle">
+                                <span class="circletext">Poop</span>
+                            </div>
+                            <ul id="buttons">
+                                <input name="poop" type="radio" value="Small" class="form-check-input radio"><span class="radiohead">Small</span>
+                                <input name="poop" type="radio" value="Medium" class="form-check-input radio"><span class="radiohead">Medium</span>
+                                <input name="poop" type="radio" value="Large" class="form-check-input radio"><span class="radiohead">Large</span>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6" id="registerbox">
+                    <div class="form-group">
+                        <input type="hidden" name="sleep" id="sleep"/>
+                        <input type="hidden" name="date" id="date" value="{{ date }}"/>
+                        <input type="hidden" name="name" value="{{ baby }}"/>
+                    </div>
+                    <div class="text-center">
+                        <div>
+                            <h3 class="heading">Start Time</h3>
+                            <input class="form-control" type="time" name="time" id="date" value="{{ time }}"/>
+                        </div>
+                        <button name="Submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Add Nappy Change</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    </section>
+
+</body>
+
+
+{% endblock %}

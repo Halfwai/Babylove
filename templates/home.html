@@ -1,0 +1,316 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<section class="background pick">
+    <div class='container'>
+    <form action="/home" method="post" class="form-control-lg">
+        <div class="row text-center">
+        <div class="col-md-6">
+            {% for row in babies %}
+            <input name="baby" type="radio" value="{{ row.babyname }}" class="form-check-input radio"><span class="radiohead">{{ row.babyname }}</span>             
+            {% endfor %}
+        </div>
+        <div class="col-md-3">
+            <select name="date">
+                <option disabled selected value="">Date</option>
+                {% for date in dates %}
+                    <option value="{{ date.date }}">{{ date.date }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        </div>
+        </div>
+        <button name="check" class="btn btn-primary form-control form-control-lg activitybutton">Check activities</button>
+    </form>
+    </div>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="section-heading text-uppercase heading">{{ name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ date }}</h1>
+            
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <img src="static/img/babypics/{{ photo }}" class="babyphoto">
+                    </div>            
+                    <div class="col-md-9">
+                        <h3 class="homeheading">Feeding</h3>
+                        {% for activity in activities %}
+                        {% if activity.left or activity.right or activity.bottle %}
+                        <span class="heading"><u>Last Feed: {{ activity.time }}</u></span>
+                        {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        <table class="table heading">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Left Side</th>
+                                    <th>Right Side</th>
+                                    <th>Bottle</th>
+                                    <th>Start Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for activity in activities %}
+                                {% if activity.left or activity.right or bottle  %}
+                                    <tr>
+                                        <td></td>
+                                        <td class="left" value="{{ activity.left }}">{{ activity.left }}</td>
+                                        <td class="right">{{ activity.right }}</td>
+                                        <td class="bottle">{{ activity.bottle }}</td>
+                                        <td>{{ activity.time }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Total</b></td>
+                                        <td id="leftTotal"></td>
+                                        <td id="rightTotal"></td>
+                                        <td id="bottleTotal"></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                        <h3 class="heading flash">Nappy Changes</h3>
+                        {% for activity in activities %}
+                        {% if activity.pee or activity.poo %}
+                        <span class="heading"><u>Last Change: {{ activity.time }}</u></span>
+                        {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        <table class="table heading">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Pee</th>
+                                    <th>Poo</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for activity in activities %}
+                                {% if activity.pee or activity.poo  %}
+                                    <tr>
+                                        <td></td>
+                                        <td class='pee'>{{ activity.pee }}</td>
+                                        <td class='poo'>{{ activity.poo }}</td>
+                                        <td>{{ activity.time }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    <td id="peeTotal"></td>
+                                    <td id="pooTotal"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3 class="heading flash">Sleeping</h3>
+                        {% for activity in activities %}
+                        {% if activity.sleep %}
+                        <span class="heading"><u>Last Sleep: {{ activity.time }}</u></span>
+                        {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        <table class="table heading">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Sleeptime</th>
+                                    <th>Start Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for activity in activities %}
+                                {% if activity.sleep %}
+                                    <tr>
+                                        <td></td>
+                                        <td class="sleep">{{ activity.sleep }}</td>
+                                        <td>{{ activity.time }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    <td id="sleepTotal"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var left = document.getElementsByClassName('left');
+        var leftSeconds = 0;
+        var leftMinutes = 0;
+        var leftHours = 0;
+        for (i = 0; i < left.length; i++) {
+            var split = left[i].textContent;
+            split = split.split(':')
+            leftHours += parseInt(split[0])
+            leftMinutes += parseInt(split[1])
+            leftSeconds += parseInt(split[2])
+        }
+        while (leftSeconds >= 60) {
+            leftSeconds -= 60
+            leftMinutes ++
+        }
+        while (leftMinutes >= 60) {
+            leftMinutes -= 60
+            leftHours ++
+        }
+        if (leftHours < 10) {
+            leftHours = '0' + leftHours
+        }
+        if (leftMinutes < 10) {
+            leftMinutes = '0' + leftMinutes;
+        }
+        if (leftSeconds < 10) {
+            leftSeconds = '0' + leftSeconds;
+        }
+        document.getElementById("leftTotal").innerHTML= leftHours + ':' + leftMinutes + ':' + leftSeconds
+
+        var right = document.getElementsByClassName('right');
+        var rightSeconds = 0;
+        var rightMinutes = 0;
+        var rightHours = 0;
+        for (i = 0; i < right.length; i++) {
+            var split = right[i].textContent;
+            split = split.split(':')
+            rightHours += parseInt(split[0])
+            rightMinutes += parseInt(split[1])
+            rightSeconds += parseInt(split[2])
+        }
+        while (rightSeconds >= 60) {
+            rightSeconds -= 60
+            rightMinutes ++
+        }
+        while (rightMinutes >= 60) {
+            rightMinutes -= 60
+            rightHours ++
+        }
+        if (rightHours < 10) {
+            rightHours = '0' + rightHours
+        }
+        if (rightMinutes < 10) {
+            rightMinutes = '0' + rightMinutes;
+        }
+        if (rightSeconds < 10) {
+            rightSeconds = '0' + rightSeconds;
+        }
+        document.getElementById("rightTotal").innerHTML = rightHours + ':' + rightMinutes + ':' + rightSeconds
+
+        var bottle = document.getElementsByClassName('bottle');
+        total = 0;
+        for (i = 0; i < bottle.length; i++) {
+            if (bottle[i].textContent != '') {
+                total += parseInt(bottle[i].textContent);
+            }
+        }
+        document.getElementById("bottleTotal").innerHTML = total + ' ml'
+
+        var pee = document.getElementsByClassName('pee');
+        total = 0;
+        for (i = 0; i < pee.length; i++) {
+            if (pee[i].textContent != 'None') {
+                total ++
+            }
+        }
+        if (total == 1) {
+            document.getElementById("peeTotal").innerHTML = total + ' pee'
+        }
+        else {
+            document.getElementById("peeTotal").innerHTML = total + ' pees'
+        }
+        
+
+        var poo = document.getElementsByClassName('poo');
+        total = 0;
+        for (i = 0; i < poo.length; i++) {
+            if (poo[i].textContent != 'None') {
+                total ++
+            }
+        }
+        if (total == 1) {
+            document.getElementById("pooTotal").innerHTML = total + ' poo'
+        }
+        else {
+            document.getElementById("pooTotal").innerHTML = total + ' poos'
+        }
+
+        var sleep = document.getElementsByClassName('sleep');
+        var sleepSeconds = 0;
+        var sleepMinutes = 0;
+        var sleepHours = 0;
+        for (i = 0; i < sleep.length; i++) {
+            var split = sleep[i].textContent;
+            split = split.split(':')
+            sleepHours += parseInt(split[0])
+            sleepMinutes += parseInt(split[1])
+            sleepSeconds += parseInt(split[2])
+        }
+        while (sleepSeconds >= 60) {
+            sleepSeconds -= 60
+            sleepMinutes ++
+        }
+        while (sleepMinutes >= 60) {
+            sleepMinutes -= 60
+            sleepHours ++
+        }
+        if (sleepHours < 10) {
+            sleepHours = '0' + sleepHours
+        }
+        if (sleepMinutes < 10) {
+            sleepMinutes = '0' + sleepMinutes;
+        }
+        if (sleepSeconds < 10) {
+            sleepSeconds = '0' + sleepSeconds;
+        }
+        document.getElementById("sleepTotal").innerHTML = sleepHours + ':' + sleepMinutes + ':' + sleepSeconds
+
+
+
+
+
+    });
+
+//     var hashStr = 'modal-123456'
+// var splitStr = hashStr.split('-');
+// console.log(splitStr[0])
+// console.log(splitStr[1])
+
+// var test = document.getElementsByClassName("box");
+// var sum = 0;
+// for (i = 0; i < test.length; i++) {
+//   sum += parseInt(test[i].textContent);
+// }
+// console.log(sum);
+</script>
+
+{% endblock %}

@@ -1,10 +1,5 @@
-import os
-import requests
-import urllib.parse
-
-from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask import redirect, session
 from functools import wraps
-from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 

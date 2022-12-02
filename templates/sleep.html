@@ -1,0 +1,133 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Feed
+{% endblock %}
+
+{% block main %}
+
+<body>
+    <section class="page-section background">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="section-heading text-uppercase heading">{{ baby }}'s tired!</h1>
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <div class="circle">
+                                <span class="circletext">Sleep</span>
+                            </div>                                            
+                            <div class="form-control form-control-lg" id="sleepstopwatch">
+                                00:00:00
+                            </div>
+                            <ul id="buttons">
+                                <button class="btn btn-primary btn-lg" onclick="sleepstartTimer()">Start</button>
+                                <button class="btn btn-primary btn-lg" onclick="sleepstopTimer()">Stop</button>
+                                <button class="btn btn-primary btn-lg" onclick="sleepresetTimer()">Reset</button>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form action="/activity" method="post">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6" id="registerbox">
+                    <div class="form-group">
+                        <input type="hidden" name="sleep" id="sleep"/>
+                        <input type="hidden" name="name" value="{{ baby }}"/>
+                        <input type="hidden" name="date" id="date" value="{{ date }}"/>
+                        
+                    </div>
+                    <div class="text-center">
+                        <div>
+                            <h3 class="heading">Start Time</h3>
+                            <input class="form-control" type="time" name="time" id="date" value="{{ time }}"/>
+                        </div>
+                        <button name="Submit" onclick="stopclock()" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Add Sleeptime</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        const sleeptimer = document.getElementById('sleepstopwatch');
+        var sleephr = 0;
+        var sleepmin = 0;
+        var sleepsec = 0;
+        var sleepstoptime = true;
+
+        function sleepstartTimer() {
+        if (sleepstoptime == true) {
+                sleepstoptime = false;
+                sleeptimerCycle();
+                rightstoptime = true;
+                var rightoutputValue=document.getElementById("rightstopwatch").innerHTML;
+                document.getElementById("right").value=rightoutputValue;
+            }
+        }
+        function sleepstopTimer() {
+        if (sleepstoptime == false) {
+            sleepstoptime = true;
+            var sleepoutputValue=document.getElementById("sleepstopwatch").innerHTML;
+            document.getElementById("sleep").value=sleepoutputValue;
+            }
+        }
+
+        function sleeptimerCycle() {
+            if (sleepstoptime == false) {
+            sleepsec = parseInt(sleepsec);
+            sleepmin = parseInt(sleepmin);
+            sleephr = parseInt(sleephr);
+
+            sleepsec = sleepsec + 1;
+
+            if (sleepsec == 60) {
+            sleepmin = sleepmin + 1;
+            sleepsec = 0;
+            }
+            if (sleepmin == 60) {
+            sleephr = sleephr + 1;
+            sleepmin = 0;
+            sleepsec = 0;
+            }
+
+            if (sleepsec < 10 || sleepsec == 0) {
+            sleepsec = '0' + sleepsec;
+            }
+            if (sleepmin < 10 || sleepmin == 0) {
+            sleepmin = '0' + sleepmin;
+            }
+            if (sleephr < 10 || sleephr == 0) {
+            sleephr = '0' + sleephr;
+            }
+
+            sleeptimer.innerHTML = sleephr + ':' + sleepmin + ':' + sleepsec;
+
+            setTimeout("sleeptimerCycle()", 1000);
+        }
+        }
+
+        function sleepresetTimer() {
+            sleeptimer.innerHTML = '00:00:00';
+            sleephr = 0;
+            sleepmin = 0;
+            sleepsec = 0;
+            var sleepoutputValue=document.getElementById("sleepstopwatch").innerHTML;
+            document.getElementById("sleep").value=sleepoutputValue;
+        }
+
+        function stopclock() {
+            var sleepoutputValue=document.getElementById("sleepstopwatch").innerHTML;
+            document.getElementById("sleep").value=sleepoutputValue;
+        }
+        
+    </script>
+
+    </section>
+
+</body>
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Track
+{% endblock %}
+
+{% block main %}
+
+<section class="page-section background">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="section-heading text-uppercase heading">Pick a child and activity type</h1>
+            <form action="/track" method="post" class="form-control-lg">
+                {% for row in babies %}
+                <input name="baby" type="radio" value="{{ row.babyname }}" class="form-check-input radio"><span class="radiohead">{{ row.babyname }}</span>             
+                {% endfor %}
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="far fa-laugh-beam fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <button name="feed" class="btn btn-primary form-control form-control-lg activitybutton">Feeding</button>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-solid fa-bed fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <button name="sleep" class="btn btn-primary form-control form-control-lg activitybutton">Sleep</button>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-baby fa-stack-1x fa-inverse"></i> <i class="fa-solid "></i>
+                            </span>
+                            <button name="nappy" class="btn btn-primary form-control form-control-lg activitybutton">Nappy Change</button>
+                        </div>
+                    </div>
+                </div>                        
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
